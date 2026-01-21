@@ -96,4 +96,8 @@ if(Windows OR Linux)
 endif()
 
 add_subdirectory(WebRTCPlugin)
-add_subdirectory(WebRTCPluginTest)
+
+include(CTest)  # BUILD_TESTING を用意する
+if(BUILD_TESTING)
+  add_subdirectory(WebRTCPluginTest)
+endif()

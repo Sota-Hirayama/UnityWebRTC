@@ -43,12 +43,13 @@ do
   for target_cpu in "x64" "arm64"
   do
 
+    echo "---- gn gen ${is_debug} : ${target_cpu}"
+
     # generate ninja files
     gn gen "$OUTPUT_DIR" --root="src" \
       --args="is_debug=${is_debug} \
       target_os=\"mac\"  \
       target_cpu=\"${target_cpu}\" \
-      use_custom_libcxx=false \
       rtc_include_tests=false \
       rtc_build_examples=false \
       rtc_use_h264=false \
@@ -56,11 +57,14 @@ do
       enable_iterator_debugging=false \
       is_component_build=false \
       use_rtti=true \
-      rtc_use_x11=false \
-      use_cxx17=true"
+      rtc_use_x11=false"
+
+    echo "---- ninja output ${is_debug} : ${target_cpu}"
 
     # build static library
     ninja -C "$OUTPUT_DIR" webrtc
+
+    echo "---- mkdir & cp ${is_debug} : ${target_cpu}"
 
     # copy static library
     mkdir -p "$ARTIFACTS_DIR/lib/${target_cpu}"
