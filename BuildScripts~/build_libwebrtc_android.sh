@@ -49,9 +49,9 @@ patch -N "src/build/android/gyp/turbine.py" < "$COMMAND_DIR/patches/downgradeJDK
 patch -N "src/modules/video_coding/codecs/vp8/libvpx_vp8_encoder.cc" < "$COMMAND_DIR/patches/libvpx_vp8_encoder.patch"
 
 # Fix AdaptedVideoTrackSource::video_adapter()
-patch -p1 -d src < "$COMMAND_DIR/patches/fix_adaptedvideotracksource.patch"
+patch -N -p1 -d src < "$COMMAND_DIR/patches/fix_adaptedvideotracksource.patch"
 # Fix Android video encoder 
-patch -p1 -d src < "$COMMAND_DIR/patches/fix_android_videoencoder.patch"
+patch -N -p1 -d src < "$COMMAND_DIR/patches/fix_android_videoencoder.patch"
 
 mkdir -p "$ARTIFACTS_DIR/lib"
 
