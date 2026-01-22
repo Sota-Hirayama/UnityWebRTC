@@ -1,8 +1,5 @@
 add_library(WebRTCLib STATIC)
 
-include(CheckIncludeFileCXX)
-check_include_file_cxx("__debug" HAVE_LIBCXX_DEBUG_HEADER)
-
 target_sources(
   WebRTCLib
   PRIVATE Context.cpp
@@ -95,11 +92,7 @@ set_target_properties(WebRTCLib PROPERTIES CXX_VISIBILITY_PRESET hidden
                                            VISIBILITY_INLINES_HIDDEN ON)
 
 if(iOS OR macOS)
-  if(HAVE_LIBCXX_DEBUG_HEADER)
-    target_sources(WebRTCLib PRIVATE ../libcxx/debug.cpp)
-  else()
-    message(WARNING "Skipping libcxx/debug.cpp because libc++ internal header __debug is not available.")
-  endif()
+  target_sources(WebRTCLib PRIVATE ../libcxx/debug.cpp)
 else()
   target_sources(WebRTCLib PRIVATE UnityVulkanInterfaceFunctions.cpp
                                    UnityVulkanInterfaceFunctions.h)
