@@ -1,0 +1,36 @@
+diff --git a/src/base/mac/availability_compat.h b/src/base/mac/availability_compat.h
+new file mode 100644
+--- /dev/null
++++ b/src/base/mac/availability_compat.h
+@@ -0,0 +1,19 @@
++// Compatibility shim for CG_AVAILABLE_BUT_DEPRECATED usage on newer
++// Xcode/Clang/SDK versions where the macro expansion may cause
++// parse errors in certain declaration contexts.
++//
++// If the SDK already provides CG_AVAILABLE_BUT_DEPRECATED, this header
++// does nothing. Otherwise, we define a safe no-op macro so that existing
++// declarations continue to compile.
++//
++// NOTE: This is a compatibility workaround. If availability semantics
++// are required, consider replacing the no-op with an appropriate
++// __attribute__((availability(...))) on supported toolchains.
++
++#ifndef BASE_MAC_AVAILABILITY_COMPAT_H_
++#define BASE_MAC_AVAILABILITY_COMPAT_H_
++
++#ifndef CG_AVAILABLE_BUT_DEPRECATED
++#define CG_AVAILABLE_BUT_DEPRECATED(...) /* compatibility no-op */
++#endif
++#endif  // BASE_MAC_AVAILABILITY_COMPAT_H_
+
+diff --git a/src/modules/desktop_capture/mac/screen_capturer_mac.mm b/src/modules/desktop_capture/mac/screen_capturer_mac.mm
+--- a/src/modules/desktop_capture/mac/screen_capturer_mac.mm
++++ b/src/modules/desktop_capture/mac/screen_capturer_mac.mm
+@@ -10,6 +10,7 @@
+ 
+ #include <utility>
+ 
++#include "base/mac/availability_compat.h"
+ #include "modules/desktop_capture/mac/screen_capturer_mac.h"
+ 
+ #include "modules/desktop_capture/mac/desktop_frame_provider.h"
