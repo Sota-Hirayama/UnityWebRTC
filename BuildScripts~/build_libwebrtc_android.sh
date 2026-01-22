@@ -7,7 +7,7 @@ fi
 
 export COMMAND_DIR=$(cd $(dirname $0); pwd)
 export PATH="$(pwd)/depot_tools:$PATH"
-export WEBRTC_VERSION=5845
+export WEBRTC_VERSION=$(cat ${COMMAND_DIR}/webrtc_head)
 export OUTPUT_DIR="$(pwd)/out"
 export ARTIFACTS_DIR="$(pwd)/artifacts"
 export PYTHON3_BIN="$(pwd)/depot_tools/python-bin/python3"
@@ -48,12 +48,10 @@ patch -N "src/build/android/gyp/turbine.py" < "$COMMAND_DIR/patches/downgradeJDK
 # Fix SetRawImagePlanes() in LibvpxVp8Encoder
 patch -N "src/modules/video_coding/codecs/vp8/libvpx_vp8_encoder.cc" < "$COMMAND_DIR/patches/libvpx_vp8_encoder.patch"
 
-pushd src
 # Fix AdaptedVideoTrackSource::video_adapter()
-patch -p1 < "$COMMAND_DIR/patches/fix_adaptedvideotracksource.patch"
+patch -p1 -d src < "$COMMAND_DIR/patches/fix_adaptedvideotracksource.patch"
 # Fix Android video encoder 
-patch -p1 < "$COMMAND_DIR/patches/fix_android_videoencoder.patch"
-popd
+patch -p1 -d src < "$COMMAND_DIR/patches/fix_android_videoencoder.patch"
 
 mkdir -p "$ARTIFACTS_DIR/lib"
 
