@@ -21,7 +21,6 @@ brew install cmake
 
 # Download LibWebRTC 
 ##curl -L $LIBWEBRTC_DOWNLOAD_URL > webrtc.zip
-
 echo "cp WebRTC.zip"
 rm -rf ./webrtc.zip
 cp ${ZIP_PATH} ./webrtc.zip
@@ -37,4 +36,4 @@ rm -rf "$DYLIB_FILE"
 # Build UnityRenderStreaming Plugin
 cd "$SOLUTION_DIR"
 cmake --preset=macos -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE -DBUILD_TESTING=OFF
-cmake --build --preset=release-macos --target=WebRTCPlugin -verbose
+cmake --build --preset=release-macos --target=WebRTCPlugin --verbose
