@@ -7,7 +7,7 @@ fi
 
 export COMMAND_DIR=$(cd $(dirname $0); pwd)
 export PATH="$(pwd)/depot_tools:$PATH"
-export WEBRTC_VERSION=$(cat ${COMMAND_DIR}/webrtc_head)
+export WEBRTC_VERSION=5845
 export OUTPUT_DIR="$(pwd)/out"
 export ARTIFACTS_DIR="$(pwd)/artifacts"
 export PYTHON3_BIN="$(pwd)/depot_tools/python-bin/python3"
@@ -36,17 +36,12 @@ patch -N "src/sdk/BUILD.gn" < "$COMMAND_DIR/patches/add_objc_deps.patch"
 # Fix SetRawImagePlanes() in LibvpxVp8Encoder
 patch -N "src/modules/video_coding/codecs/vp8/libvpx_vp8_encoder.cc" < "$COMMAND_DIR/patches/libvpx_vp8_encoder.patch"
 
-# Fix Compile Error on newer macOS SDKs
-patch -p1 -N < "$COMMAND_DIR/patches/add_availability_compat_mac.patch"
-
 mkdir -p "$ARTIFACTS_DIR/lib"
 
 for is_debug in "true" "false"
 do
   for target_cpu in "x64" "arm64"
   do
-
-    echo "---- gn gen ${is_debug} : ${target_cpu}"
 
     # generate ninja files
     gn gen "$OUTPUT_DIR" --root="src" \
@@ -61,14 +56,11 @@ do
       enable_iterator_debugging=false \
       is_component_build=false \
       use_rtti=true \
-      rtc_use_x11=false"
-
-    echo "---- ninja output ${is_debug} : ${target_cpu}"
+      rtc_use_x11=false \
+      use_cxx17=true"
 
     # build static library
     ninja -C "$OUTPUT_DIR" webrtc
-
-    echo "---- mkdir & cp ${is_debug} : ${target_cpu}"
 
     # copy static library
     mkdir -p "$ARTIFACTS_DIR/lib/${target_cpu}"
