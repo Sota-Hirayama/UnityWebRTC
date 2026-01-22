@@ -36,6 +36,9 @@ patch -N "src/sdk/BUILD.gn" < "$COMMAND_DIR/patches/add_objc_deps.patch"
 # Fix SetRawImagePlanes() in LibvpxVp8Encoder
 patch -N "src/modules/video_coding/codecs/vp8/libvpx_vp8_encoder.cc" < "$COMMAND_DIR/patches/libvpx_vp8_encoder.patch"
 
+# Fix Compile Error on newer macOS SDKs
+patch -p1 -N < "$COMMAND_DIR/patches/add_availability_compat_mac.patch"
+
 mkdir -p "$ARTIFACTS_DIR/lib"
 
 for is_debug in "true" "false"
@@ -50,6 +53,7 @@ do
       --args="is_debug=${is_debug} \
       target_os=\"mac\"  \
       target_cpu=\"${target_cpu}\" \
+      use_custom_libcxx=false \
       rtc_include_tests=false \
       rtc_build_examples=false \
       rtc_use_h264=false \
