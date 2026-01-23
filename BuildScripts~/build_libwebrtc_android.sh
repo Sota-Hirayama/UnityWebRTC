@@ -26,32 +26,32 @@ then
 fi
 
 # Support 16 KB page sizes for 64 bit Android
-patch -N "src/sdk/android/BUILD.gn" < "$COMMAND_DIR/patches/support_16kb_pagesizes_android.patch"
+patch -N --forward "src/sdk/android/BUILD.gn" < "$COMMAND_DIR/patches/support_16kb_pagesizes_android.patch" || true
 
 # Add jsoncpp
-patch -N "src/BUILD.gn" < "$COMMAND_DIR/patches/add_jsoncpp.patch"
+patch -N --forward "src/BUILD.gn" < "$COMMAND_DIR/patches/add_jsoncpp.patch" || true
 
 # Add visibility libunwind
-patch -N "src/buildtools/third_party/libunwind/BUILD.gn" < "$COMMAND_DIR/patches/add_visibility_libunwind.patch"
+patch -N --forward "src/buildtools/third_party/libunwind/BUILD.gn" < "$COMMAND_DIR/patches/add_visibility_libunwind.patch" || true
 
 # Add deps libunwind
-patch -N "src/build/config/BUILD.gn" < "$COMMAND_DIR/patches/add_deps_libunwind.patch"
+patch -N --forward "src/build/config/BUILD.gn" < "$COMMAND_DIR/patches/add_deps_libunwind.patch" || true
 
 # Add -mno-outline-atomics flag
-patch -N "src/build/config/compiler/BUILD.gn" < "$COMMAND_DIR/patches/add_nooutlineatomics_flag.patch"
+patch -N --forward "src/build/config/compiler/BUILD.gn" < "$COMMAND_DIR/patches/add_nooutlineatomics_flag.patch" || true
 
 # downgrade to JDK8 because Unity supports OpenJDK version 1.8.
 # https://docs.unity3d.com/Manual/android-sdksetup.html
-patch -N "src/build/android/gyp/compile_java.py" < "$COMMAND_DIR/patches/downgradeJDKto8_compile_java.patch"
-patch -N "src/build/android/gyp/turbine.py" < "$COMMAND_DIR/patches/downgradeJDKto8_turbine.patch"
+patch -N --forward "src/build/android/gyp/compile_java.py" < "$COMMAND_DIR/patches/downgradeJDKto8_compile_java.patch" || true
+patch -N --forward "src/build/android/gyp/turbine.py" < "$COMMAND_DIR/patches/downgradeJDKto8_turbine.patch" || true
 
 # Fix SetRawImagePlanes() in LibvpxVp8Encoder
-patch -N "src/modules/video_coding/codecs/vp8/libvpx_vp8_encoder.cc" < "$COMMAND_DIR/patches/libvpx_vp8_encoder.patch"
+patch -N --forward "src/modules/video_coding/codecs/vp8/libvpx_vp8_encoder.cc" < "$COMMAND_DIR/patches/libvpx_vp8_encoder.patch" || true
 
 # Fix AdaptedVideoTrackSource::video_adapter()
-patch -N -p1 -d src < "$COMMAND_DIR/patches/fix_adaptedvideotracksource.patch"
+patch -N --forward -p1 -d src < "$COMMAND_DIR/patches/fix_adaptedvideotracksource.patch" || true
 # Fix Android video encoder 
-patch -N -p1 -d src < "$COMMAND_DIR/patches/fix_android_videoencoder.patch"
+patch -N --forward -p1 -d src < "$COMMAND_DIR/patches/fix_android_videoencoder.patch" || true
 
 mkdir -p "$ARTIFACTS_DIR/lib"
 
