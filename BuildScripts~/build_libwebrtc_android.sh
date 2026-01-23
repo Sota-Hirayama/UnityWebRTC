@@ -6,7 +6,6 @@ then
 fi
 
 export COMMAND_DIR=$(cd $(dirname $0); pwd)
-export PATH="$(pwd)/depot_tools:$PATH"
 export WEBRTC_VERSION=$(cat ${COMMAND_DIR}/webrtc_head)
 export OUTPUT_DIR="$(pwd)/out"
 export ARTIFACTS_DIR="$(pwd)/artifacts"
@@ -24,6 +23,8 @@ then
   cd ..
   gclient sync -D --force --reset
 fi
+
+export PATH="$(pwd)/depot_tools:$PATH"
 
 # Support 16 KB page sizes for 64 bit Android
 patch -N --forward "src/sdk/android/BUILD.gn" < "$COMMAND_DIR/patches/support_16kb_pagesizes_android.patch" || true
@@ -87,7 +88,7 @@ do
   done
 done
 
-pushd src
+cd src
 
 for is_debug in "true" "false"
 do
@@ -116,9 +117,9 @@ do
   cp "$OUTPUT_DIR/libwebrtc.aar" "$ARTIFACTS_DIR/lib/${filename}"
 done
 
-popd
+cd ..
 
-"$PYTHON3_BIN" "./src/tools_webrtc/libs/generate_licenses.py" \
+"$PYTHON3_BIN" "./tools_webrtc/libs/generate_licenses.py" \
   --target :webrtc "$OUTPUT_DIR" "$OUTPUT_DIR"
 
 cd src
