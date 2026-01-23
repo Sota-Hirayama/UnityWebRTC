@@ -40,11 +40,6 @@ patch -N --forward "src/build/config/BUILD.gn" < "$COMMAND_DIR/patches/add_deps_
 # Add -mno-outline-atomics flag
 patch -N --forward "src/build/config/compiler/BUILD.gn" < "$COMMAND_DIR/patches/add_nooutlineatomics_flag.patch" || true
 
-# downgrade to JDK8 because Unity supports OpenJDK version 1.8.
-# https://docs.unity3d.com/Manual/android-sdksetup.html
-patch -N --forward "src/build/android/gyp/compile_java.py" < "$COMMAND_DIR/patches/downgradeJDKto8_compile_java.patch" || true
-patch -N --forward "src/build/android/gyp/turbine.py" < "$COMMAND_DIR/patches/downgradeJDKto8_turbine.patch" || true
-
 # Fix SetRawImagePlanes() in LibvpxVp8Encoder
 patch -N --forward "src/modules/video_coding/codecs/vp8/libvpx_vp8_encoder.cc" < "$COMMAND_DIR/patches/libvpx_vp8_encoder.patch" || true
 
