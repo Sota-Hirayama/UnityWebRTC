@@ -25,6 +25,7 @@ then
 fi
 
 export PATH="$(pwd)/depot_tools:$PATH"
+export DEPOT_TOOLS_PATH="$(pwd)/depot_tools"
 
 # Support 16 KB page sizes for 64 bit Android
 patch -N --forward "src/sdk/android/BUILD.gn" < "$COMMAND_DIR/patches/support_16kb_pagesizes_android.patch" || true
@@ -119,7 +120,7 @@ done
 
 cd ..
 
-"$PYTHON3_BIN" "./tools_webrtc/libs/generate_licenses.py" \
+"$PYTHON3_BIN" "./src/tools_webrtc/libs/generate_licenses.py" \
   --target :webrtc "$OUTPUT_DIR" "$OUTPUT_DIR"
 
 cd src
