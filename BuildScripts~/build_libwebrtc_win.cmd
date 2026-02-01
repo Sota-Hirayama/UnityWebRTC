@@ -13,7 +13,7 @@ set GYP_MSVS_VERSION=2022
 set OUTPUT_DIR=out
 set ARTIFACTS_DIR=%cd%\artifacts
 set PYPI_URL=https://artifactory.prd.it.unity3d.com/artifactory/api/pypi/pypi/simple
-set vs2022_install=C:\Program Files\Microsoft Visual Studio\2022\Professional
+call "%COMMAND_DIR%env_win.cmd"
 
 if not exist src (
   call fetch.bat --nohooks webrtc
@@ -29,9 +29,6 @@ patch -N "src\BUILD.gn" < "%COMMAND_DIR%\patches\add_jsoncpp.patch"
 
 rem fix towupper
 patch -N "src\modules\desktop_capture\win\full_screen_win_application_handler.cc" < "%COMMAND_DIR%\patches\fix_towupper.patch"
-
-rem fix abseil
-patch -N "src\third_party\abseil-cpp/absl/base/config.h" < "%COMMAND_DIR%\patches\fix_abseil.patch"
 
 rem fix task_queue_base
 patch -N "src\api\task_queue\task_queue_base.h" < "%COMMAND_DIR%\patches\fix_task_queue_base.patch"
