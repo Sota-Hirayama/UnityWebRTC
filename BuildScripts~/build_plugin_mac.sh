@@ -21,7 +21,6 @@ brew install cmake
 
 # Download LibWebRTC 
 ##curl -L $LIBWEBRTC_DOWNLOAD_URL > webrtc.zip
-echo "cp WebRTC.zip"
 rm -rf ./webrtc.zip
 cp ${ZIP_PATH} ./webrtc.zip
 
