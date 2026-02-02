@@ -1,3 +1,5 @@
+# 現在のビルドバージョンは M117 です
+
 # WebRTC for Unity
 
 <img src="https://img.shields.io/badge/unity-6000.3-green.svg?style=flat-square" alt="unity 6000.3">
