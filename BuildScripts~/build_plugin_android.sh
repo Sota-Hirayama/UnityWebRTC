@@ -1,6 +1,6 @@
 #!/bin/bash -eu
 
-export LIBWEBRTC_DOWNLOAD_URL=https://github.com/Unity-Technologies/com.unity.webrtc/releases/download/M116-20250805/webrtc-android.zip
+export LIBWEBRTC_ZIP=${LIBWEBRTC_ZIP:-$(pwd)/artifacts/webrtc-android.zip}
 export SOLUTION_DIR=$(pwd)/Plugin~
 export PLUGIN_DIR=$(pwd)/Runtime/Plugins/Android
 
@@ -11,9 +11,9 @@ else
   CMAKE_BUILD_TYPE="Release"
 fi
 
-# Download LibWebRTC 
-curl -L $LIBWEBRTC_DOWNLOAD_URL > webrtc.zip
-unzip -d $SOLUTION_DIR/webrtc webrtc.zip 
+cp -f "$LIBWEBRTC_ZIP" webrtc.zip
+
+unzip -d $SOLUTION_DIR/webrtc webrtc.zip
 cp -f $SOLUTION_DIR/webrtc/lib/libwebrtc.aar $PLUGIN_DIR
 
 # If debug build, download android-binaries that contains Vulkan validation layer
