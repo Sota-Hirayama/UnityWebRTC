@@ -7,7 +7,7 @@ fi
 
 export COMMAND_DIR=$(cd $(dirname $0); pwd)
 export PATH="$(pwd)/depot_tools:$PATH"
-export WEBRTC_VERSION=5845
+export WEBRTC_VERSION=$(cat ${COMMAND_DIR}/webrtc_head)
 export OUTPUT_DIR="$(pwd)/out"
 export ARTIFACTS_DIR="$(pwd)/artifacts"
 export PYTHON3_BIN="$(pwd)/depot_tools/python-bin/python3"
@@ -32,6 +32,9 @@ patch -N "src/api/task_queue/BUILD.gn" < "$COMMAND_DIR/patches/disable_task_queu
 
 # add objc library to use videotoolbox
 patch -N "src/sdk/BUILD.gn" < "$COMMAND_DIR/patches/add_objc_deps.patch"
+
+# add SubFrameworks search path for iOS SDK
+patch -N "src/build/config/ios/BUILD.gn" < "$COMMAND_DIR/patches/add_ios_subframeworks_path.patch"
 
 # Fix SetRawImagePlanes() in LibvpxVp8Encoder
 patch -N "src/modules/video_coding/codecs/vp8/libvpx_vp8_encoder.cc" < "$COMMAND_DIR/patches/libvpx_vp8_encoder.patch"
